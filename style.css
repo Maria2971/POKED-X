@@ -753,7 +753,9 @@ button:focus-visible,
   font: 600 15px "Rubik", system-ui, sans-serif;
   cursor: pointer;
 }
-
+#btn-white-left,
+#btn-white-right {
+    font-size: 11px}s
 
 /* ---------------------------------------------------------
    13. ACESSIBILIDADE: desliga animações se o usuário preferir
@@ -764,3 +766,4 @@ button:focus-visible,
     transition: none;
   }
 }
+
