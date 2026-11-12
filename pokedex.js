@@ -52,6 +52,7 @@ function leituraTeclado(tecla)
     numPokemon += tecla;
     infoScreen.textContent = numPokemon;
 }
+
 function apagar()
 {
     if(estadoPokedex.digitando)
@@ -68,6 +69,7 @@ function apagar()
         }
     }
 }
+
 async function consultarApi(msg)
 {
     try
@@ -76,6 +78,7 @@ async function consultarApi(msg)
         
         if (response.status === 404)
         {
+            // throww new error - Cria e lança um erro
             throw new Error('pokemon não encontrado');
         }
         if (!response.ok)
@@ -95,9 +98,11 @@ async function consultarApi(msg)
     catch(erro)
     {
         console.error('Erro ao consultar Pokémon:', erro);
+
         mainScreen.textContent = erro.message === 'pokemon não encontrado'
+           // ? - como if | : - como else
             ? 'Pokémon não encontrado.'
-            : 'Não foi possível carregar o Pokémon. Verifique a conexão e tente novamente.';
+            : 'Não foi possível carregar o Pokémon.';
     }
     finally
     {
@@ -105,6 +110,8 @@ async function consultarApi(msg)
         estadoPokedex.digitando = false;
     }
 }
+
+
 function buscarPokemon()
 {
     if(estadoPokedex.digitando) consultarApi(numPokemon);
@@ -158,16 +165,38 @@ function exibirDados(data)
 
 function obterRegiao(id)
 {
-    if (id <= 151) return 'Kanto';
-    if (id <= 251) return 'Johto';
-    if (id <= 386) return 'Hoenn';
-    if (id <= 493) return 'Sinnoh';
-    if (id <= 649) return 'Unova';
-    if (id <= 721) return 'Kalos';
-    if (id <= 809) return 'Alola';
-    if (id <= 905) return 'Galar';
-    if (id <= 1025) return 'Paldea';
-    return 'Desconhecida';
+      switch (true) 
+      {
+    case (id <= 151):
+      return 'Kanto';
+
+    case (id <= 251):
+      return 'Johto';
+
+    case (id <= 386):
+      return 'Hoenn';
+
+    case (id <= 493):
+      return 'Sinnoh';
+
+    case (id <= 649):
+      return 'Unova';
+
+    case (id <= 721):
+      return 'Kalos';
+
+    case (id <= 809):
+      return 'Alola';
+
+    case (id <= 905):
+      return 'Galar';
+
+    case (id <= 1025):
+      return 'Paldea';
+
+    default:
+      return 'Desconhecida';
+  }
 }
 
 function capitalizar(str)
@@ -175,40 +204,36 @@ function capitalizar(str)
     const strCapitalizar = str.charAt(0).toUpperCase() + str.slice(1);
     return strCapitalizar;
 }
+
 function adicionarDezBotao ()
 {
-    if (pokemonAtualId > 0)
-    {
-        consultarApi(pokemonAtualId + 10);
-    }
+    consultarApi(pokemonAtualId + 10);
 }
+
 function diminuirDezBotao ()
 {
-    if (pokemonAtualId > 1)
-    {
-        consultarApi(pokemonAtualId - 10);
-    }
+    consultarApi(pokemonAtualId - 10);
+
 }
 
 function adicionarBotao ()
 {
-    if (pokemonAtualId > 0)
-    {
-        consultarApi(pokemonAtualId + 1);
-    }
+    consultarApi(pokemonAtualId + 1);
 }
+
 function diminuirBotao ()
 {
-    if (pokemonAtualId > 1)
-    {
-        consultarApi(pokemonAtualId - 1);
-    }
+    consultarApi(pokemonAtualId - 1);
 }
 
 function gritarPokemon ()
 {
+    // se for id-0 interrompe | return retorna nenhum valor
     if (pokemonAtualId === 0) return;
-
+// new audio permite criar um objeto para reproduzir sons
     const audio = new Audio(`https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/${pokemonAtualId}.ogg`);
+    
+    //reproduz o audio que acabou de criar
     audio.play();
 }
+
